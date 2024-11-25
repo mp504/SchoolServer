@@ -13,6 +13,7 @@ namespace ServerOfSchool.Interfaces
         void Remove(Student T);
         Task<bool> SaveChangesAsync();
         Task<Student> GetStudentWithDetailsAsync(int id);
+        Task<List<Course>> GetCoursesByStudentIdAsync(int studentId);
             // Add other student-specific methods if needed
         }
     

@@ -25,6 +25,8 @@ namespace ServerOfSchool.Dto
 
         public StudentAddressDto Address { get; set; }
 
+        
+
 
 
     }

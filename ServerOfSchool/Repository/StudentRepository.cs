@@ -50,6 +50,22 @@ namespace ServerOfSchool.Repository
             _context.Remove(T);
         }
 
+
+
+        public async Task<List<Course>> GetCoursesByStudentIdAsync(int studentId)
+        {
+            var student = await _context.Students
+                .Include(s => s.Courses) // Include the Courses navigation property
+                .FirstOrDefaultAsync(s => s.Id == studentId);
+
+            if (student == null)
+            {
+                return null; // Or throw an exception if you prefer
+            }
+
+            return student.Courses.ToList(); // Return the list of courses associated with the student
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync()) > 0;

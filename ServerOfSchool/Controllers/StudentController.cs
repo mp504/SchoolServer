@@ -37,14 +37,25 @@ namespace SchoolServerOf.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
+        public async Task<ActionResult<Tuple<StudentDto, List<CourseDto>>>> GetStudent(int id)
         {
+            
             var student = await _studentRepository.GetStudentWithDetailsAsync(id);
             if (student == null)
             {
                 return NotFound();
             }
-            return Ok(student);
+            var courses = await _studentRepository.GetCoursesByStudentIdAsync(id);
+            var studentDto = _mapper.Map<StudentDto>(student);
+            var coursesDto = _mapper.Map<List<CourseDto>>(courses);
+
+            var response = new StudentWithCoursesDto
+            {
+                Student = studentDto,
+                Courses = coursesDto
+            };
+
+            return Ok(response);
         }
 
 
