@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ServerOfSchool.Dto;
 using ServerOfSchool.Interfaces;
 using ServerOfSchool.Models;
+using System.Collections.Generic;
 
 namespace ServerOfSchool.Controllers
 {
@@ -10,42 +13,62 @@ namespace ServerOfSchool.Controllers
     {
         private readonly ITeacherRepository _teacherRepository;
         private readonly ICourseRepository _courseRepository;
+        private readonly IMapper _mapper;
 
-        public TeacherController(ITeacherRepository teacherRepository, ICourseRepository courseRepository)
+        public TeacherController(ITeacherRepository teacherRepository, ICourseRepository courseRepository, IMapper mapper)
         {
             _teacherRepository = teacherRepository;
             _courseRepository = courseRepository;
+            _mapper = mapper;
         }
 
 
         // GET: api/Teachers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers()
+        public async Task<ActionResult<IEnumerable<TeacherDto>>> GetTeachers()
         {
             var teachers = await _teacherRepository.GetAllAsync();
-            return Ok(teachers);
+
+            var teachersDto = _mapper.Map<List<TeacherDto>>(teachers);
+            return Ok(teachersDto);
         }
 
 
 
         // GET: api/Teachers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Teacher>> GetTeacher(int id)
+        public async Task<ActionResult<Tuple<TeacherDto, List<CourseDto>>>> GetTeacher(int id)
         {
             var teacher = await _teacherRepository.GetTeacherWithDetailsAsync(id);
+
             if (teacher == null)
             {
                 return NotFound();
             }
-            return Ok(teacher);
+            var teacherDto = _mapper.Map<TeacherDto>(teacher);
+            var courses = await _teacherRepository.GetCoursesByTeacherIdAsync(id);
+            var coursesDto = _mapper.Map<List<CourseDto>>(courses);
+
+            var response = new TeacherWithCourses
+            {
+                Teacher = teacherDto,
+                Courses = coursesDto
+            };
+            return Ok(response);
         }
 
 
         // POST: api/Teachers
         [HttpPost]
-        public async Task<ActionResult<Teacher>> PostTeacher(Teacher teacher)
+        public async Task<ActionResult<Teacher>> PostTeacher(TeacherDto teacher)
         {
-            await _teacherRepository.AddAsync(teacher);
+            if (teacher == null)
+            {
+                return BadRequest();
+            }
+            var teacherMap = _mapper.Map<Teacher>(teacher);
+
+            await _teacherRepository.AddAsync(teacherMap);
             await _teacherRepository.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTeacher), new { id = teacher.Id }, teacher);

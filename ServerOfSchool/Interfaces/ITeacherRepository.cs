@@ -11,6 +11,7 @@ namespace ServerOfSchool.Interfaces
         void Remove(Teacher entity);
         Task<bool> SaveChangesAsync();
         Task<Teacher> GetTeacherWithDetailsAsync(int id);
+        Task<List<Course>> GetCoursesByTeacherIdAsync(int teacherID);
         // Add other teacher-specific methods if needed
     }
 }

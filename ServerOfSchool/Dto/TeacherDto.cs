@@ -5,7 +5,7 @@ namespace ServerOfSchool.Dto
 {
     public class TeacherDto
     {
-        [JsonIgnore]
+        
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Date)]
