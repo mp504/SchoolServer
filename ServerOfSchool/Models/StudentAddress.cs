@@ -5,7 +5,7 @@ namespace ServerOfSchool.Models
 {
         public class StudentAddress
         {
-                [JsonIgnore]
+                
                 public int Id { get; set; }
 
                 [Required]

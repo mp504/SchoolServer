@@ -7,7 +7,7 @@ namespace ServerOfSchool.Interfaces
    
         public interface IStudentRepository 
         {
-        Task<IEnumerable<Student>> GetAllAsync();
+        IEnumerable<Student> GetAllAsync();
         Task<Student> GetByIdAsync(int id);
         Task AddAsync(Student T);
         void Remove(Student T);

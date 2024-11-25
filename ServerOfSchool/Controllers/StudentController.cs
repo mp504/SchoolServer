@@ -2,6 +2,8 @@
 using ServerOfSchool.Models;
 using ServerOfSchool.Interfaces;
 using ServerOfSchool.Repository;
+using AutoMapper;
+using ServerOfSchool.Dto;
 namespace SchoolServerOf.Controllers
 {
     [Route("api/[controller]")]
@@ -11,17 +13,24 @@ namespace SchoolServerOf.Controllers
         private readonly IStudentRepository _studentRepository;
 
         private readonly ICourseRepository _courseRepository;
-        public StudentController(IStudentRepository studentRepository, ICourseRepository courseRepository)
+        private IMapper _mapper;
+        public StudentController(IStudentRepository studentRepository, ICourseRepository courseRepository, IMapper mapper)
         {
             _studentRepository = studentRepository;
             _courseRepository = courseRepository;
+            _mapper = mapper;
+
         }
 
         [HttpGet]
-        //[ProducesResponseType(200, Type = typeof(IEnumerable<Student>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Student>))]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-            var students = await _studentRepository.GetAllAsync();
+            var students =   _mapper.Map<List<StudentDto>>(_studentRepository.GetAllAsync());
+            if (students == null || !students.Any())
+            {
+                return NotFound();
+            }
             return Ok(students);
         }
 
@@ -41,10 +50,17 @@ namespace SchoolServerOf.Controllers
 
         // POST: api/Students
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(Student student)
+        public async Task<ActionResult<Student>> PostStudent(StudentDto student)
         {
-            await _studentRepository.AddAsync(student);
-            await _studentRepository.SaveChangesAsync();
+            if (student == null)
+            {
+                return BadRequest();
+            }
+
+            var StudentMap = _mapper.Map<Student>(student);
+
+             _studentRepository.AddAsync(StudentMap);
+             _studentRepository.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetStudent), new { id = student.Id }, student);
         }

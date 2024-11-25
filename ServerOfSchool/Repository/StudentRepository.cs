@@ -23,12 +23,12 @@ namespace ServerOfSchool.Repository
         }
 
         
-        public  async Task<IEnumerable<Student>> GetAllAsync()
+        public IEnumerable<Student> GetAllAsync()
         {
-            return await _context.Students
+            return  _context.Students
                 .Include(s => s.Address)
                 .Include(s => s.Courses)
-                .ToListAsync();
+                .ToList();
         }
 
         public async Task<Student> GetByIdAsync(int id)

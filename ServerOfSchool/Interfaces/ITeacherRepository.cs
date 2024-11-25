@@ -3,7 +3,7 @@ using static ServerOfSchool.Interfaces.IRepository;
 
 namespace ServerOfSchool.Interfaces
 {
-    public interface ITeacherRepository : IRepository<Teacher>
+    public interface ITeacherRepository 
     {
         Task<IEnumerable<Teacher>> GetAllAsync();
         Task<Teacher> GetByIdAsync(int id);

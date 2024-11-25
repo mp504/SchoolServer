@@ -3,22 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using ServerOfSchool.Data;
 using ServerOfSchool.Interfaces;
 using ServerOfSchool.Repository;
-using static ServerOfSchool.Interfaces.IRepository;
-using static ServerOfSchool.Interfaces.IStudentRepository;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
+builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddScoped<IRepository, IRepository>();
-//builder.Services.AddScoped(typeof(IRepository), typeof(Repository<>));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();

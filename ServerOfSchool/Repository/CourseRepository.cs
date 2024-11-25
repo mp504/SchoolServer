@@ -20,12 +20,12 @@ namespace ServerOfSchool.Repository
                 await _context.Set<Course>().AddAsync(entity);
             }
 
-            public  async Task<IEnumerable<Course>> GetAllAsync()
+            public   IEnumerable<Course> GetAllAsync()
                 {
-                    return await _context.Courses
+                    return  _context.Courses
                         .Include(c => c.StudentCourses)
                         .Include(c => c.TeacherCourses)
-                        .ToListAsync();
+                        .ToList();
                 }
 
             public async Task<Course> GetByIdAsync(int id)
@@ -41,7 +41,22 @@ namespace ServerOfSchool.Repository
                         .FirstOrDefaultAsync(c => c.Id == id);
                 }
 
-            public void Remove(Course entity)
+        public async Task<Course> GetCourseWithStudentsAsync(int id)
+        {
+            return await _context.Courses
+                        .Include(c => c.StudentCourses)
+                        .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<Course> GetCourseWithTeachersAsync(int id)
+        {
+            return await _context.Courses
+                        .Include(c => c.TeacherCourses)
+                        .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+
+        public void Remove(Course entity)
             {
         
                 _context.Remove(entity);
@@ -52,6 +67,8 @@ namespace ServerOfSchool.Repository
             {
                 return (await _context.SaveChangesAsync()) > 0;
             }
-        }
+
+        
+    }
 }
 

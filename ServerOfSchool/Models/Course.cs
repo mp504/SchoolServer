@@ -5,7 +5,7 @@ namespace ServerOfSchool.Models
 {
     public class Course
     {
-        [JsonIgnore]
+        
         public int Id { get; set; }
 
         [Required]
@@ -15,11 +15,11 @@ namespace ServerOfSchool.Models
 
 
         // Relationship with Teachers
-        [JsonIgnore]
+        
         public ICollection<Teacher> TeacherCourses { get; set; }  // Many-to-many with teachers
 
         // Relationship with Students
-        [JsonIgnore]
+     
         public ICollection<Student> StudentCourses { get; set; }  // Many-to-many with students
     }
 }

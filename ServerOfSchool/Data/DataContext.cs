@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using ServerOfSchool.Models;
 
 namespace ServerOfSchool.Data
