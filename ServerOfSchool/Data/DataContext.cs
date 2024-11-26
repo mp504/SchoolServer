@@ -1,10 +1,11 @@
 ﻿
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ServerOfSchool.Models;
 
 namespace ServerOfSchool.Data
 {
-    public class DataContext:DbContext
+    public class DataContext:IdentityDbContext<ApplicationUser>
     {
 
         public DataContext(DbContextOptions<DataContext> options): base(options)
@@ -20,7 +21,7 @@ namespace ServerOfSchool.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            base.OnModelCreating(modelBuilder);
 
 
             modelBuilder.Entity<Student>()
@@ -42,6 +43,20 @@ namespace ServerOfSchool.Data
                 .HasMany(t => t.TeacherCourses)
                 .WithMany(c => c.TeacherCourses)
                 .UsingEntity(j => j.ToTable("TeacherCourses"));
+
+
+
+            // ApplicationUser to Student
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.StudentProfile)
+                .WithOne(s => s.ApplicationUser)
+                .HasForeignKey<Student>(s => s.ApplicationUserId);
+
+            // ApplicationUser to Teacher
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.TeacherProfile)
+                .WithOne(t => t.ApplicationUser)
+                .HasForeignKey<Teacher>(t => t.ApplicationUserId);
 
 
 

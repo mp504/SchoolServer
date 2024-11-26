@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace ServerOfSchool.Models
@@ -19,6 +20,11 @@ namespace ServerOfSchool.Models
         [Required]
         [StringLength(100)]
         public string LastName { get; set; }
+
+        [ForeignKey("ApplicationUser")]
+        // Foreign key to ApplicationUser
+        public string? ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         // Relationship with Classes
         public ICollection<Course> TeacherCourses { get; set; }  // Many-to-many with classes

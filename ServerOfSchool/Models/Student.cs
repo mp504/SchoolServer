@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace ServerOfSchool.Models
@@ -23,10 +24,16 @@ namespace ServerOfSchool.Models
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
-        
+
+        // Foreign key to ApplicationUser
+        [ForeignKey("ApplicationUser")]
+        public string? ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
         public StudentAddress Address { get; set; }
 
         // Relationship with Courses
         public ICollection<Course> Courses { get; set; }  // Many-to-many with Courses
+
     }
 }
