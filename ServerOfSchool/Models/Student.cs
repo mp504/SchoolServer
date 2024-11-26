@@ -6,7 +6,7 @@ namespace ServerOfSchool.Models
 {
     public class Student
     {
-        [JsonIgnore]
+        
         public int Id { get; set; }
 
         [Required]

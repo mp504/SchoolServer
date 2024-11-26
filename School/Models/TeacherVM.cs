@@ -1,13 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace ServerOfSchool.Dto
+namespace School.Models
 {
-    public class StudentDto
+    public class TeacherVM
     {
-
-      
+        [JsonIgnore]
         public int Id { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
+
 
         [Required]
         [StringLength(100)]
@@ -16,18 +19,5 @@ namespace ServerOfSchool.Dto
         [Required]
         [StringLength(100)]
         public string LastName { get; set; }
-
-
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
-        
-
-        public StudentAddressDto Address { get; set; }
-
-        
-
-
-
     }
 }

@@ -19,5 +19,6 @@ namespace ServerOfSchool.Dto
         [Required]
         [StringLength(100)]
         public string LastName { get; set; }
+        public string? ApplicationUserId { get; set; }
     }
 }
