@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerOfSchool.Dto;
 using ServerOfSchool.Interfaces;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 
 namespace ServerOfSchool.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TeacherController : Controller
@@ -34,7 +36,7 @@ namespace ServerOfSchool.Controllers
         }
 
 
-
+        [Authorize(Roles ="Teacher")]
         // GET: api/Teachers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tuple<TeacherDto, List<CourseDto>>>> GetTeacher(int id)
@@ -76,6 +78,7 @@ namespace ServerOfSchool.Controllers
 
 
 
+        [Authorize(Roles = "Admin")]
         // DELETE: api/Teachers/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTeacher(int id)
@@ -93,6 +96,7 @@ namespace ServerOfSchool.Controllers
         }
 
 
+        [Authorize(Roles = "Teacher")]
         // POST: api/Teachers/5/Courses/3
         [HttpPost("{teacherId}/Courses/{courseId}")]
         public async Task<IActionResult> AddCourseToTeacher(int teacherId, int courseId)
@@ -119,6 +123,7 @@ namespace ServerOfSchool.Controllers
         }
 
 
+        [Authorize(Roles = "Teacher")]
         // DELETE: api/Teachers/5/Courses/3
         [HttpDelete("{teacherId}/Courses/{courseId}")]
         public async Task<IActionResult> RemoveCourseFromTeacher(int teacherId, int courseId)

@@ -4,8 +4,11 @@ using ServerOfSchool.Interfaces;
 using ServerOfSchool.Repository;
 using AutoMapper;
 using ServerOfSchool.Dto;
+using Microsoft.AspNetCore.Authorization;
 namespace SchoolServerOf.Controllers
 {
+
+   
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : Controller
@@ -22,9 +25,11 @@ namespace SchoolServerOf.Controllers
 
         }
 
+
+        
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Student>))]
-        public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<StudentDto>))]
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
             var students =   _mapper.Map<List<StudentDto>>(_studentRepository.GetAllAsync());
             if (students == null || !students.Any())
@@ -59,6 +64,8 @@ namespace SchoolServerOf.Controllers
         }
 
 
+        
+        
         // POST: api/Students
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(StudentDto student)

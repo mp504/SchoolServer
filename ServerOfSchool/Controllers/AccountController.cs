@@ -48,6 +48,7 @@ namespace ServerOfSchool.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
+            
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -105,17 +106,24 @@ namespace ServerOfSchool.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromForm] LoginModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            try
             {
-                var tokenString = GenerateJWTToken(user);
-                return Ok(new { Token = tokenString });
+                //if (!ModelState.IsValid)
+                //    return BadRequest(ModelState);
+
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    var tokenString = GenerateJWTToken(user);
+                    return Ok(new { Token = tokenString });
+                }
+            }catch(Exception ex){
+
+                return BadRequest(ex);
             }
+                
             return Unauthorized();
         }
 
