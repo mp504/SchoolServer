@@ -106,26 +106,51 @@ namespace ServerOfSchool.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+            //try
+            //{
+            //    //if (!ModelState.IsValid)
+            //    //    return BadRequest(ModelState);
+
+            //    var user = await _userManager.FindByEmailAsync(model.Email);
+            //    if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            //    {
+            //        var tokenString = GenerateJWTToken(user);
+            //        return Ok(new { Token = tokenString });
+            //    }
+            //}catch(Exception ex){
+
+            //    return BadRequest(ex);
+            //}
+
+            //return Unauthorized();
+
+
             try
             {
-                //if (!ModelState.IsValid)
-                //    return BadRequest(ModelState);
-
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     var tokenString = GenerateJWTToken(user);
-                    return Ok(new { Token = tokenString });
-                }
-            }catch(Exception ex){
+                    var userRoles = await _userManager.GetRolesAsync(user);
 
-                return BadRequest(ex);
+                    return Ok(new
+                    {
+                        Token = tokenString,
+                        Roles = userRoles
+                    });
+                }
             }
-                
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             return Unauthorized();
         }
+
+
 
         private string GenerateJWTToken(ApplicationUser user)
         {
@@ -157,11 +182,7 @@ namespace ServerOfSchool.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-    }
-    public class RegisterRequest
-    {
-        public RegisterModel Model { get; set; }
-        public StudentAddressDto AddressDto { get; set; }
+
     }
 }
 

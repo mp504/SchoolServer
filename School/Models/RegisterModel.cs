@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace School.Models
 {
-    public class RegisterForm
+    public class RegisterModel
     {
         [Required]
         [EmailAddress]
