@@ -22,5 +22,8 @@ namespace School.Models
 
 
         public StudentAddressVM Address { get; set; }
+
+        // Relationship with Courses
+        public ICollection<CourseVM> Courses { get; set; }  // Many-to-many with Courses
     }
 }

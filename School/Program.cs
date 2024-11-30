@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using School.Helpers;
 using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,11 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true; // Makes session cookie essential for the app
     options.IdleTimeout = TimeSpan.FromMinutes(20); // Set session timeout (optional)
 });
+// Register IHttpContextAccessor for use in the helper class
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+// Register the UserSessionHelper
+builder.Services.AddScoped<UserSessionHelper>();
 
 var app = builder.Build();
 

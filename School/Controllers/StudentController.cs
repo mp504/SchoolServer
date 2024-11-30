@@ -28,5 +28,11 @@ namespace School.Controllers
             }
             return View(students);
         }
+
+        public IActionResult Details() 
+        {
+
+            return View();
+        }
     }
 }

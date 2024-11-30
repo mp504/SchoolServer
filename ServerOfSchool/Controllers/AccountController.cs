@@ -108,24 +108,7 @@ namespace ServerOfSchool.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            //try
-            //{
-            //    //if (!ModelState.IsValid)
-            //    //    return BadRequest(ModelState);
-
-            //    var user = await _userManager.FindByEmailAsync(model.Email);
-            //    if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-            //    {
-            //        var tokenString = GenerateJWTToken(user);
-            //        return Ok(new { Token = tokenString });
-            //    }
-            //}catch(Exception ex){
-
-            //    return BadRequest(ex);
-            //}
-
-            //return Unauthorized();
-
+          
 
             try
             {
@@ -134,11 +117,12 @@ namespace ServerOfSchool.Controllers
                 {
                     var tokenString = GenerateJWTToken(user);
                     var userRoles = await _userManager.GetRolesAsync(user);
-
+                    
                     return Ok(new
                     {
                         Token = tokenString,
-                        Roles = userRoles
+                        Roles = userRoles,
+                        Id = user.Id
                     });
                 }
             }

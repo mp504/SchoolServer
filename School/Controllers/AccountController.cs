@@ -10,6 +10,7 @@ using NuGet.Common;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using School.Helpers;
 
 namespace School.Controllers
 {
@@ -19,13 +20,15 @@ namespace School.Controllers
         private readonly HttpClient _httpClient;
         // private readonly string _apiBaseUrl = ;
         Uri BaseAddress = new Uri("http://localhost:5188/api/Account");
+        private readonly UserSessionHelper _userSessionHelper;
 
 
 
 
-        public AccountController(IHttpClientFactory httpClientFactory)
+        public AccountController(IHttpClientFactory httpClientFactory, UserSessionHelper userSessionHelper)
         {
             _httpClient = httpClientFactory.CreateClient("APIClient");
+            _userSessionHelper = userSessionHelper;
         }
 
         public IActionResult Login()
@@ -60,29 +63,55 @@ namespace School.Controllers
 
                 // Read the response content for more details
                 var responseContent = await response.Content.ReadAsStringAsync();
-
+                var apiResponse = JsonConvert.DeserializeObject<TokenResponse>(responseContent);
+                // Now, you can access the roles like this:
+                List<string> roles = apiResponse.roles;
+                var token = apiResponse.Token;
+                var id = apiResponse.Id;
+                // If you need to check the roles
+               
                 if (response.IsSuccessStatusCode)
                 {
-                    var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
-
-
+                    //var options = new JsonSerializerOptions
+                    //{
+                    //    PropertyNameCaseInsensitive = true
+                    //};
+                    System.Diagnostics.Debug.WriteLine($" Response: {responseContent}");
+                    System.Diagnostics.Debug.WriteLine($" Id: {apiResponse.Id}");
+                    var tokenResponse = new TokenResponse()
+                    {
+                        Token = token,
+                        roles = roles,
+                        Id = id
+                    };
+                    
+                    
                     // Save token in session
                     HttpContext.Session.SetString("JwtToken", tokenResponse.Token);
 
 
-                    TempData["successMessage"] = "Logged in Successfully";
-                    // Check roles and redirect accordingly
-                    if (tokenResponse.Roles.Contains("Student"))
+                    // Null check for Roles
+                    if (tokenResponse.roles != null)
                     {
-                        return RedirectToAction("Index", "Student");
-                    }
-                    else if (tokenResponse.Roles.Contains("Teacher"))
-                    {
-                        return RedirectToAction("Index", "Teacher");
-                    }
-                    else if (tokenResponse.Roles.Contains("Admin"))
-                    {
-                        return RedirectToAction("Index", "Admin");
+                        // Check roles and redirect accordingly
+                        if (tokenResponse.roles.Contains("Student"))
+                        {
+                            // Save the 'id' in TempData to be used in the next request
+                            TempData["UserId"] = tokenResponse.Id;
+                            return RedirectToAction("Index", "Student");
+                        }
+                        else if (tokenResponse.roles.Contains("Teacher"))
+                        {
+                            // Save the 'id' in TempData to be used in the next request
+                            TempData["UserId"] = tokenResponse.Id;
+                            return RedirectToAction("Index", "Teacher");
+                        }
+                        else if (tokenResponse.roles.Contains("Admin"))
+                        {
+                            // Save the 'id' in TempData to be used in the next request
+                            TempData["UserId"] = tokenResponse.Id;
+                            return RedirectToAction("Index", "Admin");
+                        }
                     }
                 }
                 else
@@ -100,7 +129,7 @@ namespace School.Controllers
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View(model);
             }
-
+            TempData["successMessage"] = "Logged in Successfully";
             return View(model);
 
 
@@ -120,21 +149,7 @@ namespace School.Controllers
             // First, check and log any model validation errors
             if (!ModelState.IsValid)
             {
-                var errors = ModelState
-                    .Where(x => x.Value.Errors.Count > 0)
-                    .Select(x => new { x.Key, ErrorMessages = x.Value.Errors.Select(e => e.ErrorMessage) })
-                    .ToList();
-
-                // Log or print out the specific validation errors
-                foreach (var error in errors)
-                {
-                    Console.WriteLine($"Field: {error.Key}");
-                    foreach (var errorMessage in error.ErrorMessages)
-                    {
-                        Console.WriteLine($"- {errorMessage}");
-                        TempData["errorMessage"] = errorMessage;
-                    }
-                }
+                
 
                 return View(model);
             }
@@ -170,8 +185,10 @@ namespace School.Controllers
     // Class to match the token response
     public class TokenResponse
     {
+        public string Id { get; set; }
         public string Token { get; set; }
-        public string Roles {  get; set; }
+        
+        public List<string> roles { get; set; }
     }
 }
 

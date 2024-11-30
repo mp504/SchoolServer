@@ -27,7 +27,7 @@ namespace ServerOfSchool.Models
 
         // Foreign key to ApplicationUser
         [ForeignKey("ApplicationUser")]
-        public string? ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
         public StudentAddress Address { get; set; }
