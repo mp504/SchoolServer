@@ -72,10 +72,6 @@ namespace School.Controllers
                
                 if (response.IsSuccessStatusCode)
                 {
-                    //var options = new JsonSerializerOptions
-                    //{
-                    //    PropertyNameCaseInsensitive = true
-                    //};
                     System.Diagnostics.Debug.WriteLine($" Response: {responseContent}");
                     System.Diagnostics.Debug.WriteLine($" Id: {apiResponse.Id}");
                     var tokenResponse = new TokenResponse()
@@ -88,7 +84,8 @@ namespace School.Controllers
                     
                     // Save token in session
                     HttpContext.Session.SetString("JwtToken", tokenResponse.Token);
-
+                    // Save token in session
+                    HttpContext.Session.SetString("userId", tokenResponse.Id);
 
                     // Null check for Roles
                     if (tokenResponse.roles != null)
@@ -98,7 +95,7 @@ namespace School.Controllers
                         {
                             // Save the 'id' in TempData to be used in the next request
                             TempData["UserId"] = tokenResponse.Id;
-                            return RedirectToAction("Index", "Student");
+                            return RedirectToAction("Details", "Student");
                         }
                         else if (tokenResponse.roles.Contains("Teacher"))
                         {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace SchoolServerOf.Controllers
 {
 
-   
+    //[Authorize(Roles = "Student")]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : Controller
@@ -26,11 +26,23 @@ namespace SchoolServerOf.Controllers
         }
 
 
-        
+
+
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<StudentDto>))]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
+            // Debugging added
+            var user = HttpContext.User;
+
+            // Explicitly check role claim
+            var roleClaim = user.Claims
+                .FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+
+            if (roleClaim == null || roleClaim.Value != "Student")
+            {
+                return Forbid(); // More specific than 404
+            }
             var students =   _mapper.Map<List<StudentDto>>(_studentRepository.GetAllAsync());
             if (students == null || !students.Any())
             {
@@ -40,17 +52,17 @@ namespace SchoolServerOf.Controllers
         }
 
 
-
+        [Authorize(Roles = "Student")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tuple<StudentDto, List<CourseDto>>>> GetStudent(int id)
+        public async Task<ActionResult<Tuple<StudentDto, List<CourseDto>>>> GetStudent(string id)
         {
             
-            var student = await _studentRepository.GetStudentWithDetailsAsync(id);
+            var student = await _studentRepository.GetStudentWithDetailsByApplicationUserIdAsync(id);
             if (student == null)
             {
                 return NotFound();
             }
-            var courses = await _studentRepository.GetCoursesByStudentIdAsync(id);
+            var courses = await _studentRepository.GetCoursesByStudentIdAsync(student.Id);
             var studentDto = _mapper.Map<StudentDto>(student);
             var coursesDto = _mapper.Map<List<CourseDto>>(courses);
 
@@ -84,9 +96,9 @@ namespace SchoolServerOf.Controllers
         }
 
 
-
         // POST: api/Students/5/Courses/3
         [HttpPost("{studentId}/Courses/{courseId}")]
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> AddCourseToStudent(int studentId, int courseId)
         {
             var student = await _studentRepository.GetStudentWithDetailsAsync(studentId);
@@ -113,6 +125,7 @@ namespace SchoolServerOf.Controllers
 
 
 
+        [Authorize(Roles = "Student")]
         // DELETE: api/Students/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent(int id)

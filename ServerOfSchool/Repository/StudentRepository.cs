@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ServerOfSchool.Data;
 using ServerOfSchool.Interfaces;
 using ServerOfSchool.Models;
-using static ServerOfSchool.Interfaces.IRepository;
-using static ServerOfSchool.Interfaces.IStudentRepository;
 
 namespace ServerOfSchool.Repository
 {
@@ -23,12 +21,12 @@ namespace ServerOfSchool.Repository
         }
 
         
-        public IEnumerable<Student> GetAllAsync()
+        public async Task<IEnumerable<Student>> GetAllAsync()
         {
-            return  _context.Students
+            return await  _context.Students
                 .Include(s => s.Address)
                 .Include(s => s.Courses)
-                .ToList();
+                .ToListAsync();
         }
 
         public async Task<Student> GetByIdAsync(int id)
@@ -44,7 +42,13 @@ namespace ServerOfSchool.Repository
                 .Include(s => s.Courses)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
-
+        public async Task<Student> GetStudentWithDetailsByApplicationUserIdAsync(string id)
+        {
+            return await _context.Students
+                .Include(s => s.Address)
+                .Include(s => s.Courses)
+                .FirstOrDefaultAsync(s => s.ApplicationUserId == id);
+        }
         public void Remove(Student T)
         {
             _context.Remove(T);

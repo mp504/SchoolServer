@@ -31,10 +31,31 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<DataContext>()
         .AddDefaultTokenProviders();
 
+
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
 // Configure JWT Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(options =>{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
     .AddJwtBearer(options =>
     {
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -46,18 +67,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
+
     });
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DataContext>(options =>
+builder.Services.AddAuthorization(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.AddPolicy("StudentRole", policy =>
+        policy.RequireRole("Student"));
 });
-
-
 
 var app = builder.Build();
 
+// Order matters! UseRouting() should come before UseEndpoints()
+app.UseRouting();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -66,46 +87,24 @@ if (app.Environment.IsDevelopment())
 }
 // Create roles if they don't exist
 //roles.CreateRoles(app);
-
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-
-if (args.Length == 1 && args[0].ToLower() == "seeddata")
+app.UseEndpoints(endpoints =>
 {
-    await Seed.SeedUsersAndRolesAsync(app);
-    //Seed.SeedData(app);
-}
+    endpoints.MapControllers();
+});
+
+//if (args.Length == 1 && args[0].ToLower() == "seeddata")
+//{
+//    await Seed.SeedUsersAndRolesAsync(app);
+//    //Seed.SeedData(app);
+//}
 app.MapControllers();
 
 app.Run();
 
-
-
-
-
-
-//public static class roles
-//{
-//    public static void CreateRoles(WebApplication app)
-//    {
-//        var roleManager = app.Services.GetRequiredService<RoleManager<IdentityRole>>();
-//        var userManager = app.Services.GetRequiredService<UserManager<ApplicationUser>>();
-
-//        string[] roleNames = { "STUDENT", "TEACHER", "ADMIN" }; // List of roles you want to create
-
-//        foreach (var roleName in roleNames)
-//        {
-//            var roleExist = roleManager.RoleExistsAsync(roleName).Result;
-//            if (!roleExist)
-//            {
-//                var role = new IdentityRole(roleName);
-//                var result = roleManager.CreateAsync(role).Result;
-//            }
-//        }
-//    }
-//}
 
 
 

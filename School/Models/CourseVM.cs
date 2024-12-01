@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace School.Models
 {
@@ -9,6 +10,7 @@ namespace School.Models
 
         [Required]
         [StringLength(100)]
+        [JsonProperty("courseName")]
         public string CourseName { get; set; } // Class Name (e.g., Math, Science)
 
 

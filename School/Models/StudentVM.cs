@@ -19,11 +19,12 @@ namespace School.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
-
+        public string ApplicationUserId { get; set; }
 
         public StudentAddressVM Address { get; set; }
 
         // Relationship with Courses
         public ICollection<CourseVM> Courses { get; set; }  // Many-to-many with Courses
+        
     }
 }

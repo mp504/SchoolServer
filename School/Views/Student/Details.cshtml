@@ -9,14 +9,15 @@
                 <div class="card shadow-sm">
                     <div class="card-header bg-transparent text-center">
                         <img class="profile_img" src="https://placeimg.com/640/480/arch/any" alt="">
-                        <h3>@Model.FirstName @Model.LastName</h3>
+                        <h3>@Model?.FirstName @Model?.LastName</h3>
                     </div>
                     <div class="card-body">
-                        <p class="mb-0"><strong class="pr-1">Student ID: @Model.Id</strong>321000001</p>
-                        <p class="mb-0"><strong class="pr-1">Date of birth: @Model.DateOfBirth</strong>4</p>
+                        <p class="mb-0"><strong class="pr-1">Student ID: </strong>@Model?.Id</p>
+                        <p class="mb-0"><strong class="pr-1">Date of birth: </strong>@Model?.DateOfBirth.ToString("MM/dd/yyyy")</p> 
                         <p class="mb-0"><strong class="pr-1">Section:</strong>A</p>
-                        <p class="mb-0"><strong class="pr-1">Address:</strong>@Model.Address.Street, @Model.Address.City, @Model.Address.Country</p>
+                        <p class="mb-0"><strong class="pr-1">Address:</strong>@Model.Address?.Street, @Model.Address?.City, @Model.Address?.Country</p>
                     </div>
+
                 </div>
             </div>
             <div class="col-lg-8">
@@ -27,9 +28,9 @@
                     <div class="card-body pt-0">
                         <table class="table table-bordered">
                             <tr>
-                                <th width="30%">Roll</th>
+                                <th width="30%">Email</th>
                                 <td width="2%">:</td>
-                                <td>125</td>
+                                <td>Email</td>
                             </tr>
                             <tr>
                                 <th width="30%">Academic Year	</th>
@@ -50,49 +51,103 @@
                                 <th width="30%">blood</th>
                                 <td width="2%">:</td>
                                 <td>B+</td>
+
                             </tr>
+
                         </table>
+                        
+                            <h3>Courses</h3>
+                            @if (Model.Courses != null && Model.Courses.Any())
+                            {
+                                <table class="table">
+                                    <thead>
+
+                                        <tr>
+                                            <th></th>
+                                            <th>Course ID</th>
+                                            <th>Course Name</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var course in Model.Courses)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <form asp-action="DeleteCourse" asp-route-studentId="@Model.Id" asp-route-courseId="@course.Id" method="post">
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this course?');">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                    </td>
+                                                <td>@course?.Id</td>
+                                                        <td>@course?.CourseName</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p>No courses registered.</p>
+                            }
+                                       <h4>Add New Course</h4>
+                            <form asp-action="AddCourse" method="post">
+                                <input type="hidden" name="StudentId" value="@Model.Id" />
+                                <div class="form-group">
+                                    <label for="CourseId">Course ID:</label>
+                                    <input type="number" name="CourseId" class="form-control" required />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Course</button>
+                            </form>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<styles>
-    body {
-    padding: 0;
-    margin: 0;
-    font-family: 'Lato', sans-serif;
-    color: #000;
-    }
 
-    .student-profile .card {
-    border-radius: 10px;
-    }
+@section Styles {
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            color: #000;
+        }
 
-    .student-profile .card .card-header .profile_img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    margin: 10px auto;
-    border: 10px solid #ccc;
-    border-radius: 50%;
-    }
+        .student-profile .card {
+            border-radius: 10px;
+        }
 
-    .student-profile .card h3 {
-    font-size: 20px;
-    font-weight: 700;
-    }
+        .student-profile .card .card-header .profile_img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin: 10px auto;
+            border: 10px solid #ccc;
+            border-radius: 50%;
+        }
 
-    .student-profile .card p {
-    font-size: 16px;
-    color: #000;
-    }
+        .student-profile .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
 
-    .student-profile .table th,
-    .student-profile .table td {
-    font-size: 14px;
-    padding: 5px 10px;
-    color: #000;
-    }
-</styles>
+        .student-profile .card p {
+            font-size: 16px;
+            color: #000;
+        }
+
+        .student-profile .table th,
+        .student-profile .table td {
+            font-size: 14px;
+            padding: 5px 10px;
+            color: #000;
+        }
+    </style>
+}
+
+
+

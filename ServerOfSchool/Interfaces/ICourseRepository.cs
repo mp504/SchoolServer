@@ -1,5 +1,4 @@
 ﻿using ServerOfSchool.Models;
-using static ServerOfSchool.Interfaces.IRepository;
 
 namespace ServerOfSchool.Interfaces
 {
