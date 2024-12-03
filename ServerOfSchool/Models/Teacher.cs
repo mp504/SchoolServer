@@ -10,7 +10,7 @@ namespace ServerOfSchool.Models
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
 
         [Required]

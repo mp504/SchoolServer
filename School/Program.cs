@@ -4,26 +4,23 @@ using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddHttpClient();
-// In Program.cs of your MVC project
+
 builder.Services.AddHttpClient("APIClient", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5188/api/");
-    // You can add default headers here if needed
+    
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
-// Add session services
-builder.Services.AddDistributedMemoryCache(); // You need a cache provider
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.Cookie.HttpOnly = true; // Ensures session cookie is HttpOnly
-    options.Cookie.IsEssential = true; // Makes session cookie essential for the app
-    options.IdleTimeout = TimeSpan.FromMinutes(20); // Set session timeout (optional)
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
+    options.IdleTimeout = TimeSpan.FromMinutes(20); 
 });
-// Register IHttpContextAccessor for use in the helper class
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Register the UserSessionHelper

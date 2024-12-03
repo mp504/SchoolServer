@@ -160,6 +160,7 @@ namespace School.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["SuccessMessage"] = " User Registerd successfuly";
                     return RedirectToAction("Login", "Account");
                 }
 

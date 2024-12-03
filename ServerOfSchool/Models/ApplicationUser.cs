@@ -19,7 +19,7 @@ namespace ServerOfSchool.Models
         public string LastName { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
         // Navigation properties to Student or Teacher
         public Student StudentProfile { get; set; }

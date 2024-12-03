@@ -1,0 +1,112 @@
+﻿
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    @* <header class="header">
+        <div class="logo">
+            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=50&h=50&fit=crop" alt="School Logo" class="logo-img">
+            <h1>EduManage</h1>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#" class="active">Dashboard</a></li>
+                <li><a href="#">Students</a></li>
+                <li><a href="#">Teachers</a></li>
+                <li><a href="#">Classes</a></li>
+                <li><a href="#">Events</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu">
+            <div class="notifications">
+                <span class="notification-count">3</span>
+                <i class="icon-bell"></i>
+            </div>
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=40&h=40&fit=crop" alt="User Profile" class="profile-img">
+            </div>
+        </div>
+    </header> *@
+
+    <main class="main-content">
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon students"></div>
+                <div class="stat-info">
+                    <h3>Total Students</h3>
+                    <p class="counter" data-target="2500">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon teachers"></div>
+                <div class="stat-info">
+                    <h3>Teachers</h3>
+                    <p class="counter" data-target="120">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon classes"></div>
+                <div class="stat-info">
+                    <h3>Classes</h3>
+                    <p class="counter" data-target="45">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon events"></div>
+                <div class="stat-info">
+                    <h3>Events</h3>
+                    <p class="counter" data-target="12">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <section class="upcoming-events">
+                <h2>Upcoming Events</h2>
+                <div class="events-list">
+                    <div class="event-card">
+                        <div class="event-date">
+                            <span class="day">15</span>
+                            <span class="month">MAR</span>
+                        </div>
+                        <div class="event-details">
+                            <h3>Annual Sports Day</h3>
+                            <p>School Ground • 9:00 AM</p>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-date">
+                            <span class="day">20</span>
+                            <span class="month">MAR</span>
+                        </div>
+                        <div class="event-details">
+                            <h3>Parent-Teacher Meeting</h3>
+                            <p>Main Hall • 2:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-btn">Add Student</button>
+                    <button class="action-btn">Add Teacher</button>
+                    <button class="action-btn">Schedule Class</button>
+                    <button class="action-btn">Create Event</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module" src="/src/js/main.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>

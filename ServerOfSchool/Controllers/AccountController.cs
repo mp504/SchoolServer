@@ -100,7 +100,7 @@ namespace ServerOfSchool.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(new { Message = "User registered successfully" });
+            return Ok(new { Message = $"User: {model.FirstName} registered successfully" ,Email = model.Email, FirstName=  model.FirstName});
         }
 
 

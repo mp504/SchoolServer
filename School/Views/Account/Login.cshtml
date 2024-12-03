@@ -9,6 +9,12 @@
         <span><b>Sorry!</b> - @TempData["Error"]</span>
     </div>
 }
+else if (TempData["RegisterSuccess"] != null)
+{
+    <div class="col-md-12 alert alert-success">
+        <span><b>Success!</b> - @TempData["SuccessMessage"]</span>
+    </div>
+}
 <h1>Login</h1>
 
 <h4>LoginModel</h4>

@@ -58,7 +58,14 @@ namespace ServerOfSchool.Data
                 .WithOne(t => t.ApplicationUser)
                 .HasForeignKey<Teacher>(t => t.ApplicationUserId);
 
-
+            // Optionally, you can add specific configuration for the DateOnly property
+            modelBuilder.Entity<Student>()
+                .Property(s => s.DateOfBirth)
+                .HasColumnType("date");
+            // Optionally, you can add specific configuration for the DateOnly property
+            modelBuilder.Entity<Teacher>()
+                .Property(s => s.DateOfBirth)
+                .HasColumnType("date");
 
 
         }

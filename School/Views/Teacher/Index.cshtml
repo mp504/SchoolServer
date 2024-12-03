@@ -1,0 +1,56 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="/css/Teacher.css">
+</head>
+<body>
+    
+    <div class="container">
+        <!-- Teacher Profile Section -->
+        <div class="teacher-profile">
+            <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&auto=format&fit=crop&q=60" alt="Teacher Photo" class="teacher-photo">
+            <div class="teacher-info">
+                <h1>Prof. John Smith</h1>
+                <p class="title">Computer Science Professor</p>
+                <p class="bio">Experienced professor with over 10 years of teaching experience in Computer Science and Software Engineering.</p>
+            </div>
+        </div>
+
+        <!-- Course Management Section -->
+        <div class="course-management">
+            <h2>Course Management</h2>
+            <div class="course-form">
+                <select id="courseSelect">
+                    <option value="">Select a course to add...</option>
+                    
+                </select>
+                <button id="addCourse">Add Course</button>
+            </div>
+
+            <!-- Courses List -->
+            <div class="courses-list">
+                <h3>My Courses</h3>
+                <div id="coursesList"></div>
+            </div>
+        </div>
+
+        <!-- Modal for Student Details -->
+        <div id="studentModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Enrolled Students</h2>
+                <div id="studentsList"></div>
+            </div>
+        </div>
+    </div>
+    @section js {
+        <script src="~/js/teacher.js"></script>  <!-- Add your JavaScript file -->
+    }
+@* 
+    <script type="module" src="/js/teacher.js"></script> *@
+</body>
+</html>

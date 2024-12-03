@@ -22,7 +22,7 @@ namespace ServerOfSchool.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
 
         // Foreign key to ApplicationUser
