@@ -72,8 +72,6 @@ namespace School.Controllers
                
                 if (response.IsSuccessStatusCode)
                 {
-                    System.Diagnostics.Debug.WriteLine($" Response: {responseContent}");
-                    System.Diagnostics.Debug.WriteLine($" Id: {apiResponse.Id}");
                     var tokenResponse = new TokenResponse()
                     {
                         Token = token,

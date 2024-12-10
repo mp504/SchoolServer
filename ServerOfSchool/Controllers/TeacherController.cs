@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ServerOfSchool.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class TeacherController : Controller
@@ -36,10 +36,9 @@ namespace ServerOfSchool.Controllers
         }
 
 
-        [Authorize(Roles ="Teacher")]
         // GET: api/Teachers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tuple<TeacherDto, List<CourseDto>>>> GetTeacher(int id)
+        public async Task<ActionResult<Tuple<TeacherDto, List<CourseDto>>>> GetTeacher(string id)
         {
             var teacher = await _teacherRepository.GetTeacherWithDetailsAsync(id);
 
@@ -48,7 +47,7 @@ namespace ServerOfSchool.Controllers
                 return NotFound();
             }
             var teacherDto = _mapper.Map<TeacherDto>(teacher);
-            var courses = await _teacherRepository.GetCoursesByTeacherIdAsync(id);
+            var courses = await _teacherRepository.GetCoursesByTeacherIdAsync(teacher.Id);
             var coursesDto = _mapper.Map<List<CourseDto>>(courses);
 
             var response = new TeacherWithCourses
@@ -96,10 +95,9 @@ namespace ServerOfSchool.Controllers
         }
 
 
-        [Authorize(Roles = "Teacher")]
         // POST: api/Teachers/5/Courses/3
         [HttpPost("{teacherId}/Courses/{courseId}")]
-        public async Task<IActionResult> AddCourseToTeacher(int teacherId, int courseId)
+        public async Task<IActionResult> AddCourseToTeacher(string teacherId, int courseId)
         {
             var teacher = await _teacherRepository.GetTeacherWithDetailsAsync(teacherId);
             if (teacher == null)
@@ -126,7 +124,7 @@ namespace ServerOfSchool.Controllers
         [Authorize(Roles = "Teacher")]
         // DELETE: api/Teachers/5/Courses/3
         [HttpDelete("{teacherId}/Courses/{courseId}")]
-        public async Task<IActionResult> RemoveCourseFromTeacher(int teacherId, int courseId)
+        public async Task<IActionResult> RemoveCourseFromTeacher(string teacherId, int courseId)
         {
             var teacher = await _teacherRepository.GetTeacherWithDetailsAsync(teacherId);
             if (teacher == null)

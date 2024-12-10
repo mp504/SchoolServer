@@ -10,7 +10,7 @@ namespace ServerOfSchool.Interfaces
         Task AddAsync(Teacher entity);
         void Remove(Teacher entity);
         Task<bool> SaveChangesAsync();
-        Task<Teacher> GetTeacherWithDetailsAsync(int id);
+        Task<Teacher> GetTeacherWithDetailsAsync(string id);
         Task<List<Course>> GetCoursesByTeacherIdAsync(int teacherID);
         // Add other teacher-specific methods if needed
     }

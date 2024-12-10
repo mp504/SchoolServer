@@ -33,11 +33,11 @@ namespace ServerOfSchool.Repository
             return await _context.Set<Teacher>().FindAsync(id);
         }
 
-        public async Task<Teacher> GetTeacherWithDetailsAsync(int id)
+        public async Task<Teacher> GetTeacherWithDetailsAsync(string id)
         {
             return await _context.Teachers
                 .Include(t => t.TeacherCourses)
-                .FirstOrDefaultAsync(t => t.Id == id);
+                .FirstOrDefaultAsync(t => t.ApplicationUserId == id);
         }
 
         public void Remove(Teacher entity)

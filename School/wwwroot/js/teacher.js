@@ -1,56 +1,59 @@
-﻿@section "Scripts"{
-    import $ from 'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js';
-
+﻿
     window.$ = jQuery;
+if (window.coursesData) {
+    const coursesData = window.coursesData;
 
     // Sample data
-    const coursesData = {
-        'CS101': {
-            name: 'Introduction to Programming',
-            description: 'Basic concepts of programming using Python',
-            students: [
-                { id: 1, name: 'Alice Johnson', email: 'alice@example.com', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
-                { id: 2, name: 'Bob Smith', email: 'bob@example.com', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' }
-            ]
-        },
-        'CS201': {
-            name: 'Data Structures',
-            description: 'Advanced data structures and algorithms',
-            students: [
-                { id: 3, name: 'Carol White', email: 'carol@example.com', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
-                { id: 4, name: 'David Brown', email: 'david@example.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100' }
-            ]
-        },
-        'CS301': {
-            name: 'Algorithms',
-            description: 'Algorithm design and analysis',
-            students: [
-                { id: 5, name: 'Eve Wilson', email: 'eve@example.com', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' }
-            ]
-        },
-        'CS401': {
-            name: 'Software Engineering',
-            description: 'Software development lifecycle and best practices',
-            students: [
-                { id: 6, name: 'Frank Davis', email: 'frank@example.com', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' }
-            ]
-        }
-    };
+    //const coursesData = {
+    //    'CS101': {
+    //        name: 'Introduction to Programming',
+    //        description: 'Basic concepts of programming using Python',
+    //        students: [
+    //            { id: 1, name: 'Alice Johnson', email: 'alice@example.com', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
+    //            { id: 2, name: 'Bob Smith', email: 'bob@example.com', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' }
+    //        ]
+    //    },
+    //    'CS201': {
+    //        name: 'Data Structures',
+    //        description: 'Advanced data structures and algorithms',
+    //        students: [
+    //            { id: 3, name: 'Carol White', email: 'carol@example.com', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
+    //            { id: 4, name: 'David Brown', email: 'david@example.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100' }
+    //        ]
+    //    },
+    //    'CS301': {
+    //        name: 'Algorithms',
+    //        description: 'Algorithm design and analysis',
+    //        students: [
+    //            { id: 5, name: 'Eve Wilson', email: 'eve@example.com', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' }
+    //        ]
+    //    },
+    //    'CS401': {
+    //        name: 'Software Engineering',
+    //        description: 'Software development lifecycle and best practices',
+    //        students: [
+    //            { id: 6, name: 'Frank Davis', email: 'frank@example.com', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' }
+    //        ]
+    //    }
+//};
+
 
     // Teacher's current courses (moved outside of document ready to ensure global scope)
-    let teacherCourses = ['CS101'];
+    let teacherCourses = [];
 
     $(document).ready(function () {
         // Populate course select dropdown
         const courseSelect = $('#courseSelect');
+        
         Object.keys(coursesData).forEach(courseId => {
-            courseSelect.append(`<option value="${courseId}">${courseId} - ${coursesData[courseId].name}</option>`);
+            const course = coursesData[courseId]; // Access the course object using courseId
+            courseSelect.append(`<option value="${course.id}">${course.id} - ${course.courseName}</option>`);
         });
 
         // Add Course Handler
         $('#addCourse').on('click', function () {
             const courseId = $('#courseSelect').val();
-            if (courseId && !teacherCourses.includes(courseId)) {
+            if (courseId && !teacherCourses.includes(Id)) {
                 teacherCourses.push(courseId);
                 updateCoursesList();
 
@@ -60,7 +63,7 @@
                 setTimeout(() => {
                     $('#addCourse').removeClass('success');
                 }, 1000);
-            } else if (teacherCourses.includes(courseId)) {
+            } else if (teacherCourses.includes(Id)) {
                 alert('This course is already added.');
             }
         });
@@ -90,17 +93,17 @@
             return;
         }
 
-        teacherCourses.forEach(courseId => {
-            const course = coursesData[courseId];
+        teacherCourses.forEach(Id => {
+            const course = coursesData[Id];
             const courseElement = $(`
             <div class="course-card">
                 <div class="course-info">
-                    <h4>${courseId} - ${course.name}</h4>
-                    <p>${course.description}</p>
+                    <h4>${Id} - ${course.CourseName}</h4>
+                    
                 </div>
                 <div class="course-actions">
-                    <button onclick="showStudents('${courseId}')">View Students</button>
-                    <button onclick="removeCourse('${courseId}')">Remove Course</button>
+                    <button onclick="showStudents('${Id}')">View Students</button>
+                    <button onclick="removeCourse('${Id}')">Remove Course</button>
                 </div>
             </div>
         `);
@@ -109,8 +112,8 @@
     }
 
     // Make functions globally available
-    window.showStudents = function (courseId) {
-        const course = coursesData[courseId];
+    window.showStudents = function (Id) {
+        const course = coursesData[Id];
         const studentsList = $('#studentsList');
         studentsList.empty();
 
@@ -136,10 +139,12 @@
 
     // Function to remove a course
     window.removeCourse = function (courseId) {
-        const index = teacherCourses.indexOf(courseId);
+        const index = teacherCourses.indexOf(Id);
         if (index > -1) {
             teacherCourses.splice(index, 1);
             updateCoursesList();
         }
     };
+} else {
+    console.error("Courses data is not available.");
 }
