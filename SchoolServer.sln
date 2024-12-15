@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "School", "School\School.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerOfSchool", "ServerOfSchool\ServerOfSchool.csproj", "{48AD7643-0E3F-49DA-904E-CB7BB44F4324}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "SchoolView", "SchoolView\SchoolView.esproj", "{9085887E-09A7-4F39-BB7D-34D376E1654F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{48AD7643-0E3F-49DA-904E-CB7BB44F4324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48AD7643-0E3F-49DA-904E-CB7BB44F4324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48AD7643-0E3F-49DA-904E-CB7BB44F4324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9085887E-09A7-4F39-BB7D-34D376E1654F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9085887E-09A7-4F39-BB7D-34D376E1654F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9085887E-09A7-4F39-BB7D-34D376E1654F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9085887E-09A7-4F39-BB7D-34D376E1654F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9085887E-09A7-4F39-BB7D-34D376E1654F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9085887E-09A7-4F39-BB7D-34D376E1654F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

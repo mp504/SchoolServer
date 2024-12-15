@@ -87,7 +87,7 @@ if (app.Environment.IsDevelopment())
 }
 // Create roles if they don't exist
 //roles.CreateRoles(app);
-app.UseCors();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
