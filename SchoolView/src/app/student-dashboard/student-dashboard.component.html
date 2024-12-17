@@ -1,0 +1,108 @@
+<!-- Student Profile -->
+<div class="student-profile py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent text-center">
+            
+            <h3>{{ student?.firstName }} {{ student?.lastName }}</h3>
+          </div>
+          <div class="card-body">
+            <p class="mb-0"><strong class="pr-1">Student ID: </strong>{{ student?.id }}</p>
+            <p class="mb-0">
+              <strong class="pr-1">Date of Birth: </strong>{{ student?.dateOfBirth | date:'MM/dd/yyyy' }}
+            </p>
+            <p class="mb-0"><strong class="pr-1">Section:</strong> A</p>
+            <p class="mb-0">
+              <strong class="pr-1">Address:</strong>
+              {{ student?.address?.street }}, {{ student?.address?.city }}, {{ student?.address?.country }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0">
+              <i class="far fa-clone pr-1"></i>General Information
+            </h3>
+          </div>
+          <div class="card-body pt-0">
+            <table class="table-bordered table">
+              <tr>
+                <th width="30%">Email</th>
+                <td width="2%">:</td>
+                <td>testghjtest</td>
+              </tr>
+              <tr>
+                <th width="30%">Academic Year</th>
+                <td width="2%">:</td>
+                <td>2024</td>
+              </tr>
+              <tr>
+                <th width="30%">Gender</th>
+                <td width="2%">:</td>
+                <td>male</td>
+              </tr>
+              <tr>
+                <th width="30%">Religion</th>
+                <td width="2%">:</td>
+                <td>Islam</td>
+              </tr>
+              <tr>
+                <th width="30%">Blood</th>
+                <td width="2%">:</td>
+                <td>A+</td>
+              </tr>
+            </table>
+
+            <h3>Courses</h3>
+            <div *ngIf="student && student.courses && student.courses.length > 0; else noCourses">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Course ID</th>
+                    <th>Course Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let course of student.courses || []">
+                    <td>
+                      <button class="btn btn-danger btn-sm"
+                              (click)="student.id && course.id ? deleteCourse(student.id, course.id) : null">
+                        Delete
+                      </button>
+                    </td>
+                    <td>{{ course?.id }}</td>
+                    <td>{{ course?.courseName }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ng-template #noCourses>
+              <p>No courses registered.</p>
+            </ng-template>
+
+            <h4>Add New Course</h4>
+            <form (ngSubmit)="addCourse()" [formGroup]="addCourseForm">
+              <input type="hidden" formControlName="studentId" />
+              <div class="form-group">
+                <label for="courseId">Course ID:</label>
+                <input type="number"
+                       id="courseId"
+                       formControlName="courseId"
+                       class="form-control"
+                       required />
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="addCourseForm.invalid">
+                Add Course
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

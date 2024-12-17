@@ -1,4 +1,9 @@
-<nav>
-  <button (click)="navigateToLogin()">Login</button>
-</nav>
-<router-outlet></router-outlet>
+<header>
+  <nav>
+    <button (click)="navigateToLogin()">Login</button>
+    <button (click)="navigateToDashboard()">Dashboard</button>
+  </nav>
+</header>
+<main>
+  <router-outlet></router-outlet>
+</main>

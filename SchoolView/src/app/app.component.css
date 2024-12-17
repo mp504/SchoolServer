@@ -1,0 +1,19 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 16px;
+  background-color: #808080;
+  padding-block: 8px;
+  color: white;
+  justify-content: space-between;
+
+}
+
+button {
+  background-color: #0094ff;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+}

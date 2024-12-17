@@ -1,51 +1,65 @@
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+/*import { CommonModule } from '@angular/common';*/
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 
 @Component({
   selector: 'app-login',
   standalone: false,  // Mark as standalone component
-  
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls:[ './login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   
-  //email: string = '';
-  //password: string = '';
+ 
   errorMessage: string = '';
+  isLoading: boolean = false;
 
-  //constructor(private authService: AuthService, private router: Router) { }
   loginForm: FormGroup;
   
   constructor(
     private authService: AuthService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder
   ) {
-    this.loginForm = this.formBuilder.group({
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
   }
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
   onSubmit() {
     if (this.loginForm.valid) {
+      this.isLoading = true;
+      this.errorMessage = '';
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).subscribe(
         (response) => {
           // Save JWT token in localStorage
-          localStorage.setItem('token', response.Token);
-          localStorage.setItem('Id', response.Id);
-          this.router.navigate(['/dashboard']);  // Redirect to the dashboard
+
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('Id', response.id);
+         
+          this.router.navigate(['student-dashboard']);  // Redirect to the dashboard
         },
         (error) => {
           this.errorMessage = 'Invalid credentials. Please try again.';
+          this.isLoading = false;
         }
       );
       
+    } else {
+      this.loginForm.markAllAsTouched();
     }
   }
 

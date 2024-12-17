@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+/*import { LoginComponent } from './Auth/login/login.component';*/
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: false,
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent
 {
@@ -14,5 +17,11 @@ export class AppComponent
 
   navigateToLogin() {
     this.router.navigate(['/login']);
+
+  }
+
+
+  navigateToDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 }
