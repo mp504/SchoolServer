@@ -22,7 +22,7 @@ namespace ServerOfSchool.Controllers
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses()
         {
             var courses = _mapper.Map<List<CourseDto>>(_courseRepository.GetAllAsync());
 

@@ -1,37 +1,146 @@
-/* Styles for Student Dashboard */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #4f46e5;
+  --secondary-color: #6366f1;
+  --background-color: #f9fafb;
+  --card-background: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --border-color: #e5e7eb;
+}
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: 'Lato', sans-serif;
-  color: #000;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  line-height: 1.5;
 }
 
-.student-profile .card {
-  border-radius: 10px;
+.student-profile {
+  padding: 2rem 0;
 }
 
-  .student-profile .card .card-header .profile_img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    margin: 10px auto;
-    border: 10px solid #ccc;
-    border-radius: 50%;
+.card {
+  background: var(--card-background);
+  border-radius: 1rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+  .card:hover {
+    transform: translateY(-2px);
   }
 
-  .student-profile .card h3 {
-    font-size: 20px;
-    font-weight: 700;
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+  .card-header h3 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin: 0;
   }
 
-  .student-profile .card p {
-    font-size: 16px;
-    color: #000;
+.card-body {
+  padding: 1.5rem;
+}
+
+.profile-info p {
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.profile-info strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+  .table th {
+    background-color: #f8fafc;
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
   }
 
-.student-profile .table th,
-.student-profile .table td {
-  font-size: 14px;
-  padding: 5px 10px;
-  color: #000;
+  .table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+  }
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+  .btn-primary:hover {
+    background-color: var(--secondary-color);
+  }
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+}
+
+  .btn-danger:hover {
+    background-color: #dc2626;
+  }
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out;
+}
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+  }
+
+  .form-control:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+  }
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
 }
