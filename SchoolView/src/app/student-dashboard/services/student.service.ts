@@ -1,22 +1,22 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Student } from '../../Models/student.model'; // Adjust the path as necessary
-import { map } from 'rxjs/operators';
+import { map,  catchError,} from 'rxjs/operators';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
-  private apiUrl = 'http://localhost:5188/api/Student';
+  private apiUrl = 'http://localhost:5188/api/';
 
   constructor(private http: HttpClient) { }
 
   getStudentById(id: string): Observable<Student>
   {
-    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+    return this.http.get<any>(`${this.apiUrl}Student/${id}`).pipe(
       map(response => {
         // Extract the student data
         const studentData = response.student;
@@ -37,11 +37,33 @@ export class StudentService {
     );
   }
 
-  addCourse(studentId: number, courseId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${studentId}/courses`, { courseId });
+  addCourse(studentId: number, courseId: number): Observable<any>
+  {
+    return this.http.post(`${this.apiUrl}Student/${studentId}/courses`, { courseId });
   }
 
-  deleteCourse(studentId: number, courseId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${studentId}/courses/${courseId}`);
+  deleteCourse(studentId: number, courseId: number): Observable<any>
+  {
+    return this.http.delete(`${this.apiUrl}Student/${studentId}/courses/${courseId}`);
+  }
+
+
+  getCourses(): Observable<any[]>
+  {
+   // return this.http.get<any>(`${this.apiUrl}Course`);
+    return this.http.get<any>(`${this.apiUrl}Course`).pipe(
+      map(response => {
+        // Extract the courses array from the response
+        const coursesData = response.$values;
+
+        // Map the courses data to extract only the necessary properties
+        const courses = coursesData.map((course: any) => ({
+          id: course.id,
+          courseName: course.courseName
+        }));
+
+        return courses;
+      })
+    );
   }
 }

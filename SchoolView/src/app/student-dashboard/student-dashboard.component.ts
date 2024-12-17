@@ -7,14 +7,15 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-student-dashboard',
   standalone: false,
-  
+
   templateUrl: './student-dashboard.component.html',
   styleUrl: './student-dashboard.component.css'
 })
 export class StudentDashboardComponent {
   student: Student | null = null;
   addCourseForm: FormGroup;
-  Id: (string| null)  = localStorage.getItem('Id') ;
+  Id: (string | null) = localStorage.getItem('Id');
+  courses: any[] = [];
   constructor(private studentService: StudentService, private fb: FormBuilder, private router: Router) {
     this.addCourseForm = this.fb.group({
       studentId: [null, Validators.required],
@@ -25,6 +26,7 @@ export class StudentDashboardComponent {
 
   ngOnInit(): void {
     this.fetchStudentData();
+    this.getCourses();
   }
 
   fetchStudentData(): void {
@@ -76,5 +78,21 @@ export class StudentDashboardComponent {
     }
   }
 
+  getCourses(): void {
+    this.studentService.getCourses().subscribe(
+      (data: any[]) => {
+        this.courses = data;
+        if (this.courses.length > 0) {
+          console.log(this.courses[0]);
+        } else {
+          console.log('No courses available.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching courses:', error);
+      }
+    );
 
+
+  }
 }

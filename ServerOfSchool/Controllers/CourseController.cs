@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerOfSchool.Dto;
 using ServerOfSchool.Interfaces;
@@ -6,6 +7,7 @@ using ServerOfSchool.Models;
 
 namespace ServerOfSchool.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CourseController : Controller
@@ -20,6 +22,7 @@ namespace ServerOfSchool.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Student")]
         // GET: api/Courses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses()
@@ -36,6 +39,7 @@ namespace ServerOfSchool.Controllers
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
+
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
             var course = await _courseRepository.GetCourseWithDetailsAsync(id);
