@@ -20,8 +20,8 @@ The SchoolServer project is a .NET 8 API that provides the backend functionality
   - Teachers can also enroll in or unenroll from courses, with additional permissions to manage course content.
 
 - **Endpoints**:
-  
-  - `/api/account/register`: Register a new user.
+
+ - `/api/account/register`: Register a new user.
 - `/api/account/login`: Login and receive a JWT token.
 -  `/api/courses`: Get a list of all courses.
 - `/api/courses/{id}`: Get, update, or delete a specific course.
