@@ -20,12 +20,27 @@ The SchoolServer project is a .NET 8 API that provides the backend functionality
   - Teachers can also enroll in or unenroll from courses, with additional permissions to manage course content.
 
 - **Endpoints**:
-  - `/api/auth/register`: Register a new user.
-  - `/api/auth/login`: Login and receive a JWT token.
-  - `/api/courses`: Get a list of all courses.
-  - `/api/courses/{id}`: Get, update, or delete a specific course.
-  - `/api/courses/enroll`: Enroll a student or teacher in a course.
-  - `/api/courses/unenroll`: Unenroll a student or teacher from a course.
+  
+  - `/api/account/register`: Register a new user.
+- `/api/account/login`: Login and receive a JWT token.
+-  `/api/courses`: Get a list of all courses.
+- `/api/courses/{id}`: Get, update, or delete a specific course.
+- `/api/courses/enroll`: Enroll a student or teacher in a course.
+- `/api/courses/unenroll`: Unenroll a student or teacher from a course.
+- `/api/students`: Get a list of all students.
+- `/api/students/{id}`: Get a specific student along with their courses.
+- `/api/students`: Register a new student.
+- `/api/students/{studentId}/courses/{courseId}`: Enroll a student in a course.
+- `/api/students/{studentId}/courses/{courseId}`: Unenroll a student from a course.
+- `/api/students/{id}`: Delete a specific student.
+- `/api/teachers`: Get a list of all teachers.
+- `/api/teachers/{id}`: Get a specific teacher along with their courses.
+- `/api/teachers`: Register a new teacher.
+- `/api/teachers/{teacherId}/courses/{courseId}`: Enroll a teacher in a course.
+- `/api/teachers/{teacherId}/courses/{courseId}`: Unenroll a teacher from a course.
+- `/api/teachers/{id}`: Delete a specific teacher.
+
+
 
 ### 2. MVC Project
 
